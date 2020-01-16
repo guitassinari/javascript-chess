@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/guitassinari/javascript-chess/issues"
   },
-  "homepage": "https://github.com/guitassinari/javascript-chess#readme"
+  "homepage": "https://github.com/guitassinari/javascript-chess#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
