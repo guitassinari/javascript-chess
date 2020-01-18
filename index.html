@@ -2,8 +2,12 @@
   <head>
     <title>Javascript Chess</title>
     <link rel="stylesheet" type="text/css" href="index.css" />
+    <script>
+      const request = new Request('/move', { method: 'POST', body: {} })
+      fetch(request).then(resp => resp.json()).then(resp => console.log(resp))
+    </script>
   </head>
-  <body>
+  <body>  
     <div class="ChessBoard">
       <div class="ChessTile"></div>
       <div class="ChessTile"></div>
