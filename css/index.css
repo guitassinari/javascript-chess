@@ -13,37 +13,91 @@ body {
 }
 
 :root {
-  --chess-bg-color: black;
+  --chess-bg-color: brown;
 }
 
 .ChessTile:nth-child(-n+8):nth-child(even) {
-  background: var(--chess-bg-color);
+  background-color: var(--chess-bg-color);
 }
 
 .ChessTile:nth-child(n+8):nth-child(-n+16):nth-child(odd) {
-  background: var(--chess-bg-color);
+  background-color: var(--chess-bg-color);
 }
 
 .ChessTile:nth-child(n+17):nth-child(-n+24):nth-child(even) {
-  background: var(--chess-bg-color);
+  background-color: var(--chess-bg-color);
 }
 
 .ChessTile:nth-child(n+25):nth-child(-n+32):nth-child(odd) {
-  background: var(--chess-bg-color);
+  background-color: var(--chess-bg-color);
 }
 
 .ChessTile:nth-child(n+33):nth-child(-n+40):nth-child(even) {
-  background: var(--chess-bg-color);
+  background-color: var(--chess-bg-color);
 }
 
 .ChessTile:nth-child(n+41):nth-child(-n+48):nth-child(odd) {
-  background: var(--chess-bg-color);
+  background-color: var(--chess-bg-color);
 }
 
 .ChessTile:nth-child(n+49):nth-child(-n+56):nth-child(even) {
-  background: var(--chess-bg-color);
+  background-color: var(--chess-bg-color);
 }
 
 .ChessTile:nth-child(n+57):nth-child(-n+64):nth-child(odd) {
-  background: var(--chess-bg-color);
+  background-color: var(--chess-bg-color);
 }
+
+.ChessTile {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+}
+
+/* .ChessTile.horse.black {
+  background-image: url("https://images.vexels.com/media/users/3/143174/isolated/preview/34f1b2b61373f599d8f735e91ce37851-knight-chess-figure-black-by-vexels.png");
+}
+
+.ChessTile.horse.white {
+  background-image: url("https://images.vexels.com/media/users/3/143173/isolated/preview/b34a47b2a0e9d773aa199f7ae0f0a7ca-knight-chess-figure-by-vexels.png");
+}
+
+.ChessTile.tower.white {
+  background-image: url("https://images.vexels.com/media/users/3/143224/isolated/preview/be2b821fd2c442cd1a7e26bc086ba091-rook-chess-figure-white-by-vexels.png");
+}
+
+.ChessTile.tower.black {
+  background-image: url("https://images.vexels.com/media/users/3/143223/isolated/preview/2ac9bfd45b5f61c5425789214ce4ea4e-rook-chess-figure-by-vexels.png");
+}
+
+.ChessTile.pigeon.white {
+  background-image: url("https://images.vexels.com/media/users/3/143290/isolated/preview/3dc0e132939ad9ebff880b64637ea820-pawn-chess-figure-white-by-vexels.png");
+}
+
+.ChessTile.pigeon.black {
+  background-image: url("https://images.vexels.com/media/users/3/166467/isolated/lists/3edbf34c2490a7597d0a4803352460ac-pawn-chess-piece.png");
+}
+
+.ChessTile.bishop.black {
+  background-image: url("https://i.dlpng.com/static/png/2316972_thumb.png");
+}
+
+.ChessTile.bishop.white {
+  background-image: url("https://images.vexels.com/media/users/3/143272/isolated/preview/270aa40d920d040a999bc44d27a2e114-bishop-xadrez-figura-branco-by-vexels.png");
+}
+
+.ChessTile.queen.white {
+  background-image: url("https://images.vexels.com/media/users/3/143217/isolated/preview/b37faca0051e61f5f393c949c1f4907e-queen-chess-figure-white-by-vexels.png");
+}
+
+.ChessTile.queen.black {
+  background-image: url("https://images.vexels.com/media/users/3/166479/isolated/preview/a67a141227a6b85d144f631a8a0e448e-pe--a-de-xadrez-rainha-by-vexels.png");
+}
+
+.ChessTile.king.black {
+  background-image: url("https://i.ya-webdesign.com/images/chess-clipart-indoor-sport-19.png");
+}
+
+.ChessTile.king.white {
+  background-image: url("https://images.vexels.com/media/users/3/143267/isolated/preview/80c9ad2648bc76689e7167cfd68306e4-king-chess-figure-by-vexels.png");
+} */

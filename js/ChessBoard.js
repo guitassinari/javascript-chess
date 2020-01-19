@@ -37,8 +37,12 @@ class Position {
 }
 
 class Horse {
-  constructor(teamColor, initialPosition) {
+  constructor(teamColor) {
+    this.team = teamColor
+  }
 
+  can_move(from, to) {
+    return true
   }
 
   name() {
@@ -47,8 +51,12 @@ class Horse {
 }
 
 class Tower {
-  constructor(teamColor, initialPosition) {
+  constructor(teamColor) {
+    this.team = teamColor
+  }
 
+  can_move(from, to) {
+    return true
   }
 
   name() {
@@ -57,8 +65,12 @@ class Tower {
 }
 
 class Queen {
-  constructor(teamColor, initialPosition) {
+  constructor(teamColor) {
+    this.team = teamColor
+  }
 
+  can_move(from, to) {
+    return true
   }
 
   name() {
@@ -67,18 +79,26 @@ class Queen {
 }
 
 class Bishop {
-  constructor(teamColor, initialPosition) {
-
+  constructor(teamColor) {
+    this.team = teamColor
   }
 
   name() {
     return "bishop"
   }
+
+  can_move(from, to) {
+    return true
+  }
 }
 
 class King {
-  constructor(teamColor, initialPosition) {
+  constructor(teamColor) {
+    this.team = teamColor
+  }
 
+  can_move(from, to) {
+    return true
   }
 
   name() {
@@ -88,7 +108,11 @@ class King {
 
 class Pigeon {
   constructor(teamColor, initialPosition) {
+    this.team = teamColor
+  }
 
+  can_move(from, to) {
+    return true
   }
 
   name() {
@@ -97,14 +121,12 @@ class Pigeon {
 }
 
 class NullPiece {
-  constructor() { }
+  constructor() {
+    this.team = ""
+  }
 
   can_move(from, to) {
     return true
-  }
-
-  team() {
-    return ""
   }
 
   name() {
@@ -201,7 +223,6 @@ class ChessBoard {
 
   getPieceAt(position) {
     const piece = this.positions[position.verticalIndex()][position.horizontalIndex()]
-
     return piece
   }
 
