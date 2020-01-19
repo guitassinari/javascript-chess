@@ -1,9 +1,11 @@
 class ChessGame {
-  TEAMS = { BLACK: "black", WHITE: "white" };
-
   constructor(chessBoard) {
     this.board = chessBoard
     this.currentTeam = TEAMS.WHITE
+  }
+
+  static TEAMS() {
+    return { BLACK: "black", WHITE: "white" };
   }
 
   movePiece(from, to) {
@@ -35,3 +37,4 @@ class ChessGame {
   }
 }
 
+module.exports = ChessGame
