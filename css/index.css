@@ -54,7 +54,7 @@ body {
   background-position: center center;
 }
 
-/* .ChessTile.horse.black {
+.ChessTile.horse.black {
   background-image: url("https://images.vexels.com/media/users/3/143174/isolated/preview/34f1b2b61373f599d8f735e91ce37851-knight-chess-figure-black-by-vexels.png");
 }
 
@@ -100,4 +100,4 @@ body {
 
 .ChessTile.king.white {
   background-image: url("https://images.vexels.com/media/users/3/143267/isolated/preview/80c9ad2648bc76689e7167cfd68306e4-king-chess-figure-by-vexels.png");
-} */
+}
