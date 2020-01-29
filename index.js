@@ -6,6 +6,7 @@ const ChessGame = require('./js/ChessGame')
 
 app.use(express.static(__dirname+'/css'))
 app.use(express.static(__dirname+'/js'))
+app.use(express.json())
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname+'/index.html'));
@@ -13,13 +14,19 @@ app.get('/', function (req, res) {
 
 app.get('/new', function (req, res) {
   const board = ChessBoard.initialBoard(ChessGame.TEAMS().WHITE, ChessGame.TEAMS().BLACK)
-  const object = board.allPositions().reduce((positionObject, position) => {
-    const piece = board.getPieceAt(position)
-    positionObject[position.toString()] = [piece.name(), piece.team]
-    return positionObject
-  }, {})
 
-  res.json(object);
+  res.json(board.toObject());
+});
+
+app.put('/new', function (req, res) {
+  try {
+    const board = ChessBoard.fromObject(req.body.board)
+    const chessGame = new ChessGame(board, "white")
+    chessGame.movePiece(req.body.movement[0], req.body.movement[1])
+    res.json(chessGame.board.toObject());
+  } catch (e) {
+    res.status(400).json({ error: e.message })
+  }  
 });
 
 app.post('/move', function (req, res) {

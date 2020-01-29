@@ -16,6 +16,10 @@ body {
   --chess-bg-color: brown;
 }
 
+.ChessTile.Active {
+  background-color: blue !important;
+}
+
 .ChessTile:nth-child(-n+8):nth-child(even) {
   background-color: var(--chess-bg-color);
 }
