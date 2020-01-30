@@ -14,6 +14,21 @@
           return this.__getPiecesPositions()
         }
 
+        static movePiece(chessBoard, sourceTile, destinationTile) {
+          const request = new Request("/new",
+            { 
+              method: "PUT", 
+              body: JSON.stringify({
+                board: chessBoard.toObject(),
+                movement: [sourceTile.id(), destinationTile.id()]
+              }),
+              headers: {
+                "Content-Type": "application/json"
+              }
+            })
+          return fetch(request)
+        }
+
         static __getPiecesPositions() {
           const request = new Request('/new')
           return fetch(request).then(resp => resp.json())
@@ -71,7 +86,7 @@
           tile.active()
           this.clickedTiles.push(tile)
           if(this.clickedTiles.length === 2) {
-            this.movePiece()
+            ChessApi.movePiece(this, this.clickedTiles[0], this.clickedTiles[1])
               .then((resp) => {
                 if(!resp.ok) {
                   resp.json().then(({ error }) => alert(error))
@@ -88,23 +103,7 @@
           this.clickedTiles = []
         }
 
-        movePiece() {
-          const [source, destination] = this.clickedTiles
-          const request = new Request("/new",
-            { 
-              method: "PUT", 
-              body: JSON.stringify({
-                board: this.currentBoardObject(),
-                movement: [source.id(), destination.id()]
-              }),
-              headers: {
-                "Content-Type": "application/json"
-              }
-            })
-          return fetch(request)
-        }
-
-        currentBoardObject() {
+        toObject() {
           const board = {}
           for(let tuple of this.eachTilePieceTeam()) {
             board[tuple.tile] = [tuple.piece, tuple.team]
