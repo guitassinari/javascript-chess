@@ -1,7 +1,7 @@
 class ChessGame {
-  constructor(chessBoard) {
+  constructor(chessBoard, currentTeam = ChessGame.TEAMS().WHITE) {
     this.board = chessBoard
-    this.currentTeam = TEAMS.WHITE
+    this.currentTeam = currentTeam
   }
 
   static TEAMS() {
@@ -10,16 +10,21 @@ class ChessGame {
 
   movePiece(from, to) {
     const piece = this.board.getPieceAt(from)
+    
+    if(piece.name() == null) {
+      throw new Error("Não há nenhuma peça nessa posição")
+    }
+
     if(piece.can_move(from, to) === false) {
       throw new Error("Impossivel mover esta peça para a posição destino")
     }
 
-    if(piece.team() !== this.currentTeam) {
+    if(piece.team !== this.currentTeam) {
       throw new Error("Impossível mover a peça da outra equipe")
     }
 
     const pieceAtDestination = this.board.getPieceAt(to)
-    if(piece.team() === pieceAtDestination.team()) {
+    if(piece.team === pieceAtDestination.team) {
       throw new Error("Impossivel mover esta peça para a posição destino pois há outra peça nesta posição.")
     }
 
@@ -29,10 +34,10 @@ class ChessGame {
   }
 
   __changeCurrentTeam() {
-    if(this.currentTeam === this.TEAMS.BLACK) {
-      this.currentTeam = this.TEAMS.WHITE
+    if(this.currentTeam === ChessGame.TEAMS().BLACK) {
+      this.currentTeam = ChessGame.TEAMS().WHITE
     } else {
-      this.currentTeam = this.TEAMS.BLACK
+      this.currentTeam = ChessGame.TEAMS().BLACK
     }
   }
 }

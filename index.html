@@ -4,14 +4,153 @@
     <link rel="stylesheet" type="text/css" href="index.css" />
     <script>
       const request = new Request('/new')
-      fetch(request)
-        .then(resp => resp.json())
-        .then(chessBoard => {
-          Object.entries(chessBoard).forEach(([tile, [piece, team]]) => {
-            document.getElementById(tile).classList.add(piece || "empty")
-            document.getElementById(tile).classList.add(team || "no-team")
-          })
-        })
+      function getPiecesPositions(chessBoard) {
+        const request = new Request('/new')
+        return fetch(request).then(resp => resp.json())
+      }
+
+      class ChessApi {
+        static startNewGame() {
+          return this.__getPiecesPositions()
+        }
+
+        static movePiece(chessBoard, sourceTile, destinationTile) {
+          const request = new Request("/new",
+            { 
+              method: "PUT", 
+              body: JSON.stringify({
+                board: chessBoard.toObject(),
+                movement: [sourceTile.id(), destinationTile.id()]
+              }),
+              headers: {
+                "Content-Type": "application/json"
+              }
+            })
+          return fetch(request)
+        }
+
+        static __getPiecesPositions() {
+          const request = new Request('/new')
+          return fetch(request).then(resp => resp.json())
+        }
+      }
+
+      class Tile {
+        constructor(tileElement) {
+          this.tileId = tileElement.id
+          this.element = tileElement
+        }
+
+        id() {
+          return this.tileId
+        }
+
+        clear() {
+          this.element.classList = "ChessTile"
+        }
+
+        active() {
+          this.element.classList.add("Active")
+        }
+
+        addPiece() {
+          this.element.classList.add(piece || "empty")
+        }
+
+        addTeam() {
+          this.element.classList.add(team || "no-team")
+        }
+
+        onClick(callback) {
+          this.element.addEventListener("click", callback)
+        }
+      }
+
+      class ChessBoard {
+        constructor() {
+          this.tiles = []
+          for (let tile of document.getElementsByClassName("ChessTile")) {
+            this.tiles.push(new Tile(tile))
+          }
+          this.clickedTiles = []
+          this.addEventListenersToTiles()
+        }
+
+        addEventListenersToTiles() {
+          for(let tile of this.eachTile()) {
+            tile.onClick(() => this.registerClick(tile))
+          }
+        }
+
+        registerClick(tile) {
+          tile.active()
+          this.clickedTiles.push(tile)
+          if(this.clickedTiles.length === 2) {
+            ChessApi.movePiece(this, this.clickedTiles[0], this.clickedTiles[1])
+              .then((resp) => {
+                if(!resp.ok) {
+                  resp.json().then(({ error }) => alert(error))
+                } else {
+                  resp.json().then(a => this.updatePiecesPositions(a))
+                }
+                this.clearClickedTiles()
+              })
+          }
+        }
+
+        clearClickedTiles() {
+          this.clickedTiles.forEach(tile => tile.clear())
+          this.clickedTiles = []
+        }
+
+        toObject() {
+          const board = {}
+          for(let tuple of this.eachTilePieceTeam()) {
+            board[tuple.tile] = [tuple.piece, tuple.team]
+          }
+          return board
+        }
+
+        updatePiecesPositions(tileAndPiecesMap) {
+          this.tileAndPiecesMap = tileAndPiecesMap
+          this.updateHtmlBoard()
+        }
+
+        updateHtmlBoard() {
+          for(let tuple of this.eachTilePieceTeam()) {
+            const { tile, piece, team } = tuple
+            this.clearTile(tile)
+            this.addPieceToTile(tile, piece)
+            this.addTeamToTile(tile, team)
+          }
+        }
+
+        *eachTilePieceTeam() {
+          yield* Object.entries(this.tileAndPiecesMap).map(([tile, [piece, team]]) => ({ tile, piece, team }))
+        }
+
+        *eachTile() {
+          yield* this.tiles
+        }
+
+        clearTile(tile) {
+          document.getElementById(tile).classList = "ChessTile"
+        }
+
+        addPieceToTile(tile, piece) {
+          document.getElementById(tile).classList.add(piece || "empty")
+        }
+
+        addTeamToTile(tile, team) {
+          document.getElementById(tile).classList.add(team || "no-team")
+        }
+      }
+
+      window.onload = function() {
+        const chessBoard = new ChessBoard()
+
+        getPiecesPositions().then(pieceAndTileMap => chessBoard.updatePiecesPositions(pieceAndTileMap))
+      }
     </script>
   </head>
   <body>  

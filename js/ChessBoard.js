@@ -126,11 +126,11 @@ class NullPiece {
   }
 
   can_move(from, to) {
-    return true
+    return false
   }
 
   name() {
-    return ""
+    return null
   }
 }
 
@@ -143,42 +143,57 @@ class ChessBoard {
     return 8
   }
 
+  static fromObject(boardObject) {
+    const board = new ChessBoard()
+    Object.entries(boardObject).forEach(([tileId, [piece, team]]) => {
+      switch (piece) {
+        case 'horse': board.addPiece(new Horse(team), tileId); break;
+        case 'tower': board.addPiece(new Tower(team), tileId); break;
+        case 'bishop': board.addPiece(new Bishop(team), tileId); break;
+        case 'king': board.addPiece(new King(team), tileId); break;
+        case 'queen': board.addPiece(new Queen(team), tileId); break;
+        case 'pigeon': board.addPiece(new Pigeon(team), tileId); break;
+      }
+    })
+    return board
+  }
+
   static initialBoard(whiteTeam, blackTeam) {
     const board = new ChessBoard() 
 
-    board.addPiece(new Tower(blackTeam), new Position("H8"))
-    board.addPiece(new Horse(blackTeam), new Position("G8"))
-    board.addPiece(new Bishop(blackTeam), new Position("F8"))
-    board.addPiece(new Queen(blackTeam), new Position("E8"))
-    board.addPiece(new King(blackTeam), new Position("D8"))
-    board.addPiece(new Bishop(blackTeam), new Position("C8"))
-    board.addPiece(new Horse(blackTeam), new Position("B8"))
-    board.addPiece(new Tower(blackTeam), new Position("A8"))
-    board.addPiece(new Pigeon(blackTeam), new Position("H7"))
-    board.addPiece(new Pigeon(blackTeam), new Position("G7"))
-    board.addPiece(new Pigeon(blackTeam), new Position("F7"))
-    board.addPiece(new Pigeon(blackTeam), new Position("E7"))
-    board.addPiece(new Pigeon(blackTeam), new Position("D7"))
-    board.addPiece(new Pigeon(blackTeam), new Position("C7"))
-    board.addPiece(new Pigeon(blackTeam), new Position("B7"))
-    board.addPiece(new Pigeon(blackTeam), new Position("A7"))
+    board.addPiece(new Tower(blackTeam), "H8")
+    board.addPiece(new Horse(blackTeam), "G8")
+    board.addPiece(new Bishop(blackTeam), "F8")
+    board.addPiece(new Queen(blackTeam), "E8")
+    board.addPiece(new King(blackTeam), "D8")
+    board.addPiece(new Bishop(blackTeam), "C8")
+    board.addPiece(new Horse(blackTeam), "B8")
+    board.addPiece(new Tower(blackTeam), "A8")
+    board.addPiece(new Pigeon(blackTeam), "H7")
+    board.addPiece(new Pigeon(blackTeam), "G7")
+    board.addPiece(new Pigeon(blackTeam), "F7")
+    board.addPiece(new Pigeon(blackTeam), "E7")
+    board.addPiece(new Pigeon(blackTeam), "D7")
+    board.addPiece(new Pigeon(blackTeam), "C7")
+    board.addPiece(new Pigeon(blackTeam), "B7")
+    board.addPiece(new Pigeon(blackTeam), "A7")
     
-    board.addPiece(new Tower(whiteTeam), new Position("A1"))
-    board.addPiece(new Horse(whiteTeam), new Position("B1"))
-    board.addPiece(new Bishop(whiteTeam), new Position("C1"))
-    board.addPiece(new Queen(whiteTeam), new Position("D1"))
-    board.addPiece(new King(whiteTeam), new Position("E1"))
-    board.addPiece(new Bishop(whiteTeam), new Position("F1"))
-    board.addPiece(new Horse(whiteTeam), new Position("G1"))
-    board.addPiece(new Tower(whiteTeam), new Position("H1"))
-    board.addPiece(new Pigeon(whiteTeam), new Position("H2"))
-    board.addPiece(new Pigeon(whiteTeam), new Position("G2"))
-    board.addPiece(new Pigeon(whiteTeam), new Position("F2"))
-    board.addPiece(new Pigeon(whiteTeam), new Position("E2"))
-    board.addPiece(new Pigeon(whiteTeam), new Position("D2"))
-    board.addPiece(new Pigeon(whiteTeam), new Position("C2"))
-    board.addPiece(new Pigeon(whiteTeam), new Position("B2"))
-    board.addPiece(new Pigeon(whiteTeam), new Position("A2"))
+    board.addPiece(new Tower(whiteTeam), "A1")
+    board.addPiece(new Horse(whiteTeam), "B1")
+    board.addPiece(new Bishop(whiteTeam), "C1")
+    board.addPiece(new Queen(whiteTeam), "D1")
+    board.addPiece(new King(whiteTeam), "E1")
+    board.addPiece(new Bishop(whiteTeam), "F1")
+    board.addPiece(new Horse(whiteTeam), "G1")
+    board.addPiece(new Tower(whiteTeam), "H1")
+    board.addPiece(new Pigeon(whiteTeam), "H2")
+    board.addPiece(new Pigeon(whiteTeam), "G2")
+    board.addPiece(new Pigeon(whiteTeam), "F2")
+    board.addPiece(new Pigeon(whiteTeam), "E2")
+    board.addPiece(new Pigeon(whiteTeam), "D2")
+    board.addPiece(new Pigeon(whiteTeam), "C2")
+    board.addPiece(new Pigeon(whiteTeam), "B2")
+    board.addPiece(new Pigeon(whiteTeam), "A2")
 
     return board
   }
@@ -191,6 +206,14 @@ class ChessBoard {
         this.positions[i][j] = new NullPiece()
       } 
     }
+  }
+
+  toObject() {
+    return this.allPositions().reduce((positionObject, position) => {
+      const piece = this.getPieceAt(position.toString())
+      positionObject[position.toString()] = [piece.name(), piece.team]
+      return positionObject
+    }, {})
   }
 
   allPositions() {
@@ -221,12 +244,14 @@ class ChessBoard {
     this.__putPieceAtPosition(pieceAtDestination, from)
   }
 
-  getPieceAt(position) {
+  getPieceAt(positionString) {
+    const position = new Position(positionString)
     const piece = this.positions[position.verticalIndex()][position.horizontalIndex()]
     return piece
   }
 
-  __putPieceAtPosition(piece, position) {
+  __putPieceAtPosition(piece, positionString) {
+    const position = new Position(positionString)
     this.positions[position.verticalIndex()][position.horizontalIndex()] = piece
   }
 }
