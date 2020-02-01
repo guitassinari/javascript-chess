@@ -56,7 +56,13 @@ class Tower {
   }
 
   can_move(from, to) {
-    return true
+   
+    if(to.letter == from.letter || to.number == from.number){
+      return true
+    }
+    else{
+      return false
+    }
   }
 
   name() {
