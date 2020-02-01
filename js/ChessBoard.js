@@ -55,8 +55,7 @@ class Tower {
     this.team = teamColor
   }
 
-  can_move(from, to) {
-   
+  can_move(from, to) {   
     if(to.letter == from.letter || to.number == from.number){
       return true
     }
