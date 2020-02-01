@@ -55,9 +55,13 @@ class Tower {
     this.team = teamColor
   }
 
-  can_move(from, to) {
-    const from = new Position(from)
-    return true
+  can_move(from, to) {   
+    if(to.letter == from.letter || to.number == from.number){
+      return true
+    }
+    else{
+      return false
+    }
   }
 
   name() {
