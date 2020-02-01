@@ -56,6 +56,7 @@ class Tower {
   }
 
   can_move(from, to) {
+    const from = new Position(from)
     return true
   }
 
