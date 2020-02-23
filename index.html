@@ -3,12 +3,6 @@
     <title>Javascript Chess</title>
     <link rel="stylesheet" type="text/css" href="index.css" />
     <script>
-      const request = new Request('/new')
-      function getPiecesPositions(chessBoard) {
-        const request = new Request('/new')
-        return fetch(request).then(resp => resp.json())
-      }
-
       class ChessApi {
         static startNewGame() {
           return this.__getPiecesPositions()
@@ -149,7 +143,7 @@
       window.onload = function() {
         const chessBoard = new ChessBoard()
 
-        getPiecesPositions().then(pieceAndTileMap => chessBoard.updatePiecesPositions(pieceAndTileMap))
+        ChessApi.startNewGame().then(pieceAndTileMap => chessBoard.updatePiecesPositions(pieceAndTileMap))
       }
     </script>
   </head>

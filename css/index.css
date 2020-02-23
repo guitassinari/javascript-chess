@@ -74,11 +74,11 @@ body {
   background-image: url("https://images.vexels.com/media/users/3/143223/isolated/preview/2ac9bfd45b5f61c5425789214ce4ea4e-rook-chess-figure-by-vexels.png");
 }
 
-.ChessTile.pigeon.white {
+.ChessTile.pawn.white {
   background-image: url("https://images.vexels.com/media/users/3/143290/isolated/preview/3dc0e132939ad9ebff880b64637ea820-pawn-chess-figure-white-by-vexels.png");
 }
 
-.ChessTile.pigeon.black {
+.ChessTile.pawn.black {
   background-image: url("https://images.vexels.com/media/users/3/166467/isolated/lists/3edbf34c2490a7597d0a4803352460ac-pawn-chess-piece.png");
 }
 

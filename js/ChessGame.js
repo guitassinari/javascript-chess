@@ -1,3 +1,6 @@
+const Board = require('./ChessBoard')
+const Position = require('./Position')
+
 class ChessGame {
   constructor(chessBoard, currentTeam = ChessGame.TEAMS().WHITE) {
     this.board = chessBoard
@@ -8,29 +11,46 @@ class ChessGame {
     return { BLACK: "black", WHITE: "white" };
   }
 
+  static newGame() {
+    const board = Board.initialBoard(ChessGame.TEAMS().BLACK, ChessGame.TEAMS().WHITE)
+    return new ChessGame(board)
+  }
+
+  static loadGame(boardObj) {
+    const board = Board.fromObject(boardObj)
+    return new ChessGame(board, "white")
+  }
+
   movePiece(from, to) {
-    const piece = this.board.getPieceAt(from)
+    const fromPosition = new Position(from)
+    const toPosition = new Position(to)
     
-    if(piece.name() == null) {
+    this.__verifyPieceMovementRules(fromPosition, toPosition)
+
+    this.board.removePieceAt(toPosition)
+    this.board.movePiece(fromPosition, toPosition)
+    this.__changeCurrentTeam()
+  }
+
+  __verifyPieceMovementRules(fromPosition, toPosition) {
+    const sourcePiece = this.board.getPieceAt(fromPosition)
+    const destinationPiece = this.board.getPieceAt(toPosition)
+
+    if(sourcePiece.name() == null) {
       throw new Error("Não há nenhuma peça nessa posição")
     }
 
-    if(piece.can_move(from, to) === false) {
+    if(sourcePiece.can_move(fromPosition, toPosition) === false) {
       throw new Error("Impossivel mover esta peça para a posição destino")
     }
 
-    if(piece.team !== this.currentTeam) {
+    if(sourcePiece.team !== this.currentTeam) {
       throw new Error("Impossível mover a peça da outra equipe")
     }
 
-    const pieceAtDestination = this.board.getPieceAt(to)
-    if(piece.team === pieceAtDestination.team) {
+    if(sourcePiece.team === destinationPiece.team) {
       throw new Error("Impossivel mover esta peça para a posição destino pois há outra peça nesta posição.")
     }
-
-    this.board.removePieceAt(to)
-    this.board.movePiece(from, to)
-    this.__changeCurrentTeam()
   }
 
   __changeCurrentTeam() {

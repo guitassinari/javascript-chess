@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const ChessBoard = require('./js/ChessBoard')
 const ChessGame = require('./js/ChessGame')
 
 app.use(express.static(__dirname+'/css'))
@@ -13,18 +12,18 @@ app.get('/', function (req, res) {
 });
 
 app.get('/new', function (req, res) {
-  const board = ChessBoard.initialBoard(ChessGame.TEAMS().WHITE, ChessGame.TEAMS().BLACK)
+  const chessGame = ChessGame.newGame()
 
-  res.json(board.toObject());
+  res.json(chessGame.board.toObject());
 });
 
 app.put('/new', function (req, res) {
   try {
-    const board = ChessBoard.fromObject(req.body.board)
-    const chessGame = new ChessGame(board, "white")
+    const chessGame = ChessGame.loadGame(req.body.board)
     chessGame.movePiece(req.body.movement[0], req.body.movement[1])
     res.json(chessGame.board.toObject());
   } catch (e) {
+    console.log(e)
     res.status(400).json({ error: e.message })
   }  
 });
